@@ -1,3 +1,4 @@
+let running = false;
 let lx = [0,0,0,0,0,0,0,0,0,0]
 let ly = [0,0,0,0,0,0,0,0,0,0]
 let bass = null
@@ -33,11 +34,16 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(400, 400);
+  let cnv = createCanvas(400, 400);
+  cnv.mousePressed(switchon)
   pixelDensity(1);
   frameRate(4)
   
 //  bbuff.loadPixels()
+}
+
+function switchon() {
+  running = !running;
 }
 
 function linjer() {
@@ -69,18 +75,20 @@ function kollaRutan (x, y) {
 let totalt = 0;
   for (py=0; py<50; py++) {
       for (px=0; px<50; px++) {
-
         place =  ((20000*y)+(50*x)+(py*400+px));
         pix = pixels [place*4]
         totalt=totalt+pix
-       // pixels [place*4] = 0
+       // pixels [place*4] = 0 //test för att se vad ruta som kollas
       }
     }
   return totalt;
 }
 
 function draw() {
-walk++;
+
+if (running) {
+  
+  walk++;
   if (walk==8)  {fall++; walk=0; }
   if (fall==2) {
     fall=0; 
@@ -106,8 +114,10 @@ updatePixels ()
   bildvarde = kollaRutan (walk, fall+6)
       if (bildvarde<630000) snarenote.play ();
 
-  // updatePixels ()
-
+} else {
+    textSize(20);
+    text("Click to start playing", 10, 20);
+}
   //print (walk)
  // print ((16000*walk)*4)
 // print (totalt)
